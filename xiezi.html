@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>写字特效</title>
+	<style type="text/css">
+   #canvas{
+    display:block;
+    margin:0 auto;
+	background:#F5F5DC;
+} 
+body{
+ background:#FAFAD2;
+}
+
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800"></canvas>
+	<script type="text/javascript">
+	var canvas=document.getElementById("canvas");
+	var context=canvas.getContext("2d");
+	function drawGrid(){
+		context.strokeStyle="red";
+		context.beginPath();
+		context.moveTo(3,3);
+		context.lineTo(800-3,3);
+		context.lineTo(800-3,800-3);
+		context.lineTo(3,800-3);
+		context.closePath();
+		context.lineWidth=6;
+		context.stroke();
+
+		context.beginPath();
+		context.moveTo(0,0);
+		context.lineTo(800,800);
+
+		context.moveTo(800,0);
+		context.lineTo(0,800);
+
+		context.moveTo(400,0);
+		context.lineTo(400,800);
+		context.moveTo(0,400);
+		context.lineTo(800,400);
+		context.lineWidth=1;
+		context.stroke();
+	}	
+  drawGrid();
+
+   var  isMouseDown = false;
+   var lastLoc = {x:0,y:0};
+
+   canvas.onmousedown=function(e){
+      isMouseDown=true;
+     //  console.log("nihao");
+    var lastLoc=weizhi(e.clientX,e.clientY);	
+   }
+   canvas.onmouseup=function(){
+   	isMouseDown=false;
+   	// console.log("ahha");
+   }
+   canvas.onmouseout=function(){
+   	 isMouseDown=false
+   	  //console.log("ming");
+   }
+   canvas.onmousemove=function(e){
+   	 if(isMouseDown){
+       var now=weizhi(e.clientX,e.clientY);
+       context.beginPath();
+       lastLoc=now;
+       context.moveTo(lastLoc.x,lastLoc.y);
+       context.lineTo(now.x,now.y);
+       context.strokeStyle="black";
+       context.lineWidth=30;
+      context.lineCap="round";
+       context.stroke();
+   	 }
+   }
+   function weizhi(x,y){
+   	 var bbox=canvas.getBoundingClientRect();
+   	 console.log(bbox);
+   	 return{x:Math.round(x-bbox.left),y:Math.round(y-bbox.top)};
+  
+   }
+
+	</script>
+</body>
+</html>
